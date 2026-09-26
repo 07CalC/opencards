@@ -17,5 +17,9 @@
       "database_id": "93602c50-bfd7-4738-b97e-f5314bcbe6bb",
       "migrations_dir": "./migrations"
     }
-  ]
+  ],
+	"vars": {
+		"FRONTEND_URL": "",
+		"GOOGLE_REDIRECT_URI": ""
+	}
 }

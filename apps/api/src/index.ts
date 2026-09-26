@@ -1,9 +1,11 @@
 import { Hono } from "hono";
+import { auth } from "./routes/auth";
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
+const api = new Hono<{ Bindings: CloudflareBindings }>();
 
-app.get("/message", (c) => {
-  return c.text("Hello Hono!");
-});
+api.route("/auth", auth);
+
+app.route("/api", api);
 
 export default app;
