@@ -1,12 +1,12 @@
 import { Hono } from "hono";
-import type { Bindings } from "../env";
 import { GoogleEmailNotVerifiedError, GoogleService } from "../services/google";
 import { UserService, type NewGoogleUser } from "../services/users";
-import { clearSessionCookie, consumeStateCookie, getSessionToken, setSessionCookie, setStateCookie } from "../utils/cookies";
-import { SESSION_MAX_AGE, signSessionToken, verifySessionToken } from "../utils/jwt";
+import { type AppEnv, requireAuth } from "../middleware/require-auth";
+import { clearSessionCookie, consumeStateCookie, setSessionCookie, setStateCookie } from "../utils/cookies";
+import { SESSION_MAX_AGE, signSessionToken } from "../utils/jwt";
 import { isSecureRequest, randomState } from "../utils/oauth";
 
-export const auth = new Hono<{ Bindings: Bindings }>();
+export const auth = new Hono<AppEnv>();
 
 auth.get("/google", (c) => {
   const google = new GoogleService({
@@ -69,17 +69,8 @@ auth.get("/google/callback", async (c) => {
   return c.json({ user: UserService.toPublicUser(user) });
 });
 
-auth.get("/me", async (c) => {
-  const token = getSessionToken(c);
-  if (!token) return c.json({ error: "Unauthorized" }, 401);
-
-  const userId = await verifySessionToken(token, c.env.JWT_SECRET);
-  if (!userId) return c.json({ error: "Unauthorized" }, 401);
-
-  const user = await new UserService(c.env.DB).findById(userId);
-  if (!user) return c.json({ error: "Unauthorized" }, 401);
-
-  return c.json({ user: UserService.toPublicUser(user) });
+auth.get("/me", requireAuth, (c) => {
+  return c.json({ user: c.get("user") });
 });
 
 auth.post("/logout", (c) => {

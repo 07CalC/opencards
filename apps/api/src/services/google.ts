@@ -10,8 +10,8 @@ export type GoogleUserInfo = {
   picture?: string;
 };
 
-export class GoogleOAuthError extends Error {}
-export class GoogleEmailNotVerifiedError extends GoogleOAuthError {}
+export class GoogleOAuthError extends Error { }
+export class GoogleEmailNotVerifiedError extends GoogleOAuthError { }
 
 export type GoogleServiceConfig = {
   clientId: string;
@@ -20,11 +20,11 @@ export type GoogleServiceConfig = {
 };
 
 export class GoogleService {
-  constructor(private config: GoogleServiceConfig) {}
+  constructor(private config: GoogleServiceConfig) { }
 
   static resolveRedirectUri(explicit: string | undefined, requestUrl: string): string {
     if (explicit) return explicit;
-    return new URL("/auth/google/callback", requestUrl).toString();
+    return new URL("/api/auth/google/callback", requestUrl).toString();
   }
 
   static displayNameFor(info: GoogleUserInfo): string {
