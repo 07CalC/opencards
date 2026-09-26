@@ -1,0 +1,16 @@
+
+CREATE TABLE IF NOT EXISTS media (
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(6)))),
+  ownerId TEXT REFERENCES users(id) ON DELETE CASCADE,
+  fileName TEXT NOT NULL,
+  mimeType TEXT NOT NULL,
+  size INTEGER NOT NULL,
+  sha256 TEXT NOT NULL,
+  r2Key TEXT NOT NULL,
+  ankiFileName TEXT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_media_ownerId ON media (ownerId);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_media_sha256 ON media (ownerId,sha256);
+

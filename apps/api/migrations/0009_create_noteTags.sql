@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS noteTags (
+  noteId TEXT REFERENCES notes(id) ON DELETE CASCADE,
+  tagId TEXT REFERENCES tags(id) ON DELETE CASCADE,
+  PRIMARY KEY (noteId, tagId)
+);

@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "api",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-25",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./public"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "opencards",
+      "database_id": "93602c50-bfd7-4738-b97e-f5314bcbe6bb",
+      "migrations_dir": "./migrations"
+    }
+  ]
+}

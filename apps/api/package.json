@@ -1,0 +1,16 @@
+{
+	"name": "@opencards/api",
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy --minify",
+		"cf-typegen": "wrangler types --env-interface CloudflareBindings"
+	},
+	"dependencies": {
+		"hono": "^4.13.9"
+	},
+	"devDependencies": {
+		"@types/node": "^26.6.3",
+		"wrangler": "^4.141.0"
+	}
+}
